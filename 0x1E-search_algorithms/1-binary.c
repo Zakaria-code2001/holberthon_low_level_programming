@@ -1,56 +1,39 @@
 #include "search_algos.h"
 
 /**
- * print_search_array - Print the array that's being searched
- * @array: The array being searched
- * @start: Index we want to start at
- * @end: Index to finish at
- **/
-void print_search_array(int *array, int start, int end)
-{
-	int i;
-
-	i = start;
-	printf("Searching in array: ");
-	while (i <= end)
-	{
-		if (i > start)
-			printf(", ");
-		printf("%d", array[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-/**
- * binary_search - Use a binary search to find the given value in an array
- * @array: Array to search
- * @size: Size of the given array
- * @value: Value to search for
- * Return: The first index the value appears, or -1 if the value can't be
- * found
- **/
+  * binary_search - Searches for a value in a sorted array
+  *                 of integers using binary search.
+  * @array: A pointer to the first element of the array to search.
+  * @size: The number of elements in the array.
+  * @value: The value to search for.
+  *
+  * Return: If the value is not present or the array is NULL, -1.
+  *         Otherwise, the index where the value is located.
+  *
+  * Description: Prints the [sub]array being searched after each change.
+  */
 int binary_search(int *array, size_t size, int value)
 {
-	int left, right, compare;
+	size_t i, left, right;
 
-	left = compare = 0;
-	right = size - 1;
+	if (array == NULL)
+		return (-1);
 
-	while (left <= right)
+	for (left = 0, right = size - 1; right >= left;)
 	{
-		print_search_array(array, left, right);
-		compare = (left + right) / 2;
-		if (array[compare] == value)
-			return (compare);
-		else if (array[compare] > value)
-		{
-			right = compare;
-		}
-		else if (array[compare] < value)
-		{
-			left = compare + 1;
-		}
+		printf("Searching in array: ");
+		for (i = left; i < right; i++)
+			printf("%d, ", array[i]);
+		printf("%d\n", array[i]);
+
+		i = left + (right - left) / 2;
+		if (array[i] == value)
+			return (i);
+		if (array[i] > value)
+			right = i - 1;
+		else
+			left = i + 1;
 	}
+
 	return (-1);
 }
